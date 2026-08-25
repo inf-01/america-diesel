@@ -665,11 +665,111 @@
     if (HAS_ST) ScrollTrigger.refresh();
   }
 
+  /* ============ 9. HAMBURGER MENU ============ */
+  function initHamburger() {
+    const burger = qs('#nav-burger');
+    const nav = qs('#nav');
+    if (!burger || !nav) return;
+
+    burger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('nav--open');
+      burger.setAttribute('aria-expanded', isOpen);
+      document.body.classList.toggle('chat-open', isOpen);
+    });
+
+    // Cerrar al hacer click en un enlace del menú
+    qsa('.nav__mobile-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('nav--open');
+        burger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('chat-open');
+      });
+    });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+        nav.classList.remove('nav--open');
+        burger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('chat-open');
+      }
+    });
+  }
+
+  /* ============ 10. CHATBOT ASISTENTE IA ============ */
+  function initChatbot() {
+    const chatbot = qs('#chatbot');
+    const toggle = qs('#chatbot-toggle');
+    const close = qs('#chatbot-close');
+    const form = qs('#chatbot-form');
+    const input = qs('#chatbot-input');
+    const messages = qs('#chatbot-messages');
+    if (!chatbot || !toggle || !form || !input || !messages) return;
+
+    const responses = {
+      'bomba': 'Trabajamos con bombas Common Rail y rotativas para todo tipo de equipo. Ofrecemos reparación, calibración y venta con garantía. ¿Desea agendar una revisión?',
+      'inyector': 'Reparamos y vendemos inyectores piezo y solenoide para las principales marcas: Cummins, Caterpillar, Duramax, Power Stroke, Hino, Isuzu y más.',
+      'turbo': 'Contamos con turbos new y remanufacturados. Hacemos instalación y prueba post-instalación. ¿Qué plataforma le interesa?',
+      'precio': 'Los precios varían según el modelo y marca del equipo. Para una cotización precisa, necesita traer el equipo al taller o enviar datos por WhatsApp al +506 8531-0000.',
+      'cita': 'Puede agendar una cita al +506 8531-0000 o por WhatsApp. Atendemos de Lunes a Viernes de 7:30 a 17:00 y Sábados de 8:00 a 12:00.',
+      'horario': 'Horario: Lunes a Viernes 7:30 – 17:00, Sábados 8:00 – 12:00. Domingos cerrado.',
+      'whatsapp': 'Puede contactarnos por WhatsApp al +506 8531-0000. ¡Le atendemos rápido!',
+      'ubicacion': 'Estamos en 300 metros sur de Super Compro de Santa Rosa, Santo Domingo, Heredia, Costa Rica. Código postal 40306.',
+      'direccion': 'Estamos en 300 metros sur de Super Compro de Santa Rosa, Santo Domingo, Heredia, Costa Rica. Código postal 40306.',
+      'servicio': 'Ofrecemos: reparación de bombas de inyección, venta e instalación de inyectores, turbos new y remanufacturados, y diagnóstico computarizado.',
+      'gracias': '¡Con gusto! Si necesita algo más, estoy aquí 24/7. ¡Que tenga un excelente día!',
+      'hola': '¡Hola! Bienvenido a Repuestos América Diesel. ¿En qué puedo ayudarle?',
+      'buenas': '¡Buenas! ¿Cómo puedo asistirle hoy? Pregunte por bombas, inyectores, turbos o agendar una cita.'
+    };
+
+    function addMessage(text, isUser) {
+      const div = document.createElement('div');
+      div.className = `chatbot__msg chatbot__msg--${isUser ? 'user' : 'bot'}`;
+      div.innerHTML = `<p>${text}</p>`;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function getResponse(input) {
+      const lower = input.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      for (const [key, val] of Object.entries(responses)) {
+        if (lower.includes(key)) return val;
+      }
+      return 'Gracias por su consulta. Para información específica, comuníquese al +506 8531-0000 o escríbanos por WhatsApp. ¡Con gusto le ayudamos!';
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, true);
+      input.value = '';
+      // Simula delay de "escribiendo..."
+      setTimeout(() => addMessage(getResponse(text), false), 600 + Math.random() * 800);
+    });
+
+    toggle.addEventListener('click', () => {
+      chatbot.classList.toggle('chatbot--open');
+    });
+
+    close.addEventListener('click', () => {
+      chatbot.classList.remove('chatbot--open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && chatbot.classList.contains('chatbot--open')) {
+        chatbot.classList.remove('chatbot--open');
+      }
+    });
+  }
+
   function init() {
     initLenis();
     initAnchorLinks();
     initCursor();
     initThree();
+    initHamburger();
+    initChatbot();
     runPreloader(startExperience);
 
     // Recalcula triggers cuando fuentes e imágenes terminen de cargar
