@@ -204,10 +204,9 @@
       opacity: 0.15,
     });
 
-    /* Construye una bomba de inyección diésel con primitivas (cuerpo
-       cilíndrico, cabeza distribuidora, líneas de combustible, eje de
-       accionamiento y brida de montaje). Cada pieza comparte su
-       geometría con un clon en wireframe para el look de malla. */
+    /* Construye una bomba de inyección diésel rotativa tipo VE
+       con primitivas Three.js. Cada pieza comparte su geometría
+       con un clon en wireframe para el look de malla. */
     function buildInjectionPump() {
       const seg = TOUCH ? 36 : 64;
       const tSeg = TOUCH ? 10 : 14;
@@ -224,54 +223,59 @@
         });
       };
 
-      // Cuerpo principal (housing)
-      addPart(new THREE.CylinderGeometry(0.85, 0.85, 2.4, seg), 0, 0.2, 0);
+      // Cuerpo principal (horizontal, sobre el eje X)
+      addPart(new THREE.CylinderGeometry(0.85, 0.85, 1.7, seg), 0, 0, 0, 0, 0, Math.PI / 2);
 
-      // Copa superior (distributor head)
-      addPart(new THREE.CylinderGeometry(1.0, 0.85, 0.7, seg), 0, 1.65, 0);
+      // Cabezal de accionamiento frontal (cono truncado)
+      addPart(new THREE.CylinderGeometry(0.6, 0.75, 0.35, seg), 1.02, 0, 0, 0, 0, Math.PI / 2);
 
-      // Tapa de la cabeza (dish top)
-      addPart(new THREE.CylinderGeometry(1.02, 1.02, 0.12, seg), 0, 2.05, 0);
-
-      // Brida de montaje (anillo inferior)
-      addPart(new THREE.TorusGeometry(0.95, 0.1, tSeg, seg), 0, -1.0, 0, Math.PI / 2, 0, 0);
-
-      // Bandas de refuerzo del cuerpo (3 anillos)
-      const bandGeo = new THREE.TorusGeometry(0.88, 0.04, tSeg, seg);
-      addPart(bandGeo, 0, 0.7, 0, Math.PI / 2, 0, 0);
-      addPart(bandGeo, 0, 0.2, 0, Math.PI / 2, 0, 0);
-      addPart(bandGeo, 0, -0.3, 0, Math.PI / 2, 0, 0);
-
-      // Líneas de combustible (4 salidas desde la cabeza)
-      const lineGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.9, TOUCH ? 10 : 14);
-      const angles = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
-      angles.forEach((a) => {
-        const lx = Math.cos(a) * 0.7;
-        const lz = Math.sin(a) * 0.7;
-        addPart(lineGeo, lx, 2.15, lz, 0.15, 0, 0);
-      });
-
-      // Eje de accionamiento (drive shaft, eje vertical inferior)
+      // Eje de accionamiento / polea
       addPart(
-        new THREE.CylinderGeometry(0.15, 0.15, 1.6, TOUCH ? 12 : 18),
-        0, -1.8, 0
+        new THREE.CylinderGeometry(0.22, 0.22, 0.75, TOUCH ? 16 : 24),
+        1.5, 0, 0, 0, 0, Math.PI / 2
       );
 
-      // Acople del eje (coupling)
+      // Cabezal hidráulico trasero (mayor diámetro)
+      addPart(new THREE.CylinderGeometry(0.96, 0.9, 0.55, seg), -1.12, 0, 0, 0, 0, Math.PI / 2);
+
+      // Tapa del cabezal
       addPart(
-        new THREE.CylinderGeometry(0.28, 0.28, 0.3, TOUCH ? 12 : 18),
-        0, -2.6, 0
+        new THREE.CylinderGeometry(0.5, 0.5, 0.3, TOUCH ? 16 : 24),
+        -1.48, 0, 0, 0, 0, Math.PI / 2
       );
 
-      // Engranaje basal (drive gear)
+      // Válvula dosificadora de combustible (LDA) — superior
       addPart(
-        new THREE.TorusGeometry(0.38, 0.09, tSeg, seg),
-        0, -2.6, 0, Math.PI / 2, 0, 0
+        new THREE.CylinderGeometry(0.18, 0.22, 0.55, TOUCH ? 16 : 24),
+        -0.35, 1.02, 0
       );
+
+      // Solenoide de corte de combustible — inclinado arriba-atrás
+      addPart(
+        new THREE.CylinderGeometry(0.2, 0.24, 0.62, TOUCH ? 16 : 24),
+        -0.78, 0.92, 0, 0, 0, -0.5
+      );
+
+      // Salida de alta presión hacia el inyector — superior frontal
+      addPart(
+        new THREE.CylinderGeometry(0.14, 0.18, 0.62, TOUCH ? 16 : 24),
+        0.55, 0.98, 0
+      );
+
+      // Puerto de alimentación de combustible — lateral
+      addPart(
+        new THREE.CylinderGeometry(0.16, 0.2, 0.5, TOUCH ? 16 : 24),
+        0.25, -0.05, 0.95, Math.PI / 2, 0, 0
+      );
+
+      // Brida de montaje al motor (toro)
+      addPart(new THREE.TorusGeometry(0.88, 0.11, tSeg, seg), -0.45, 0, 0, 0, Math.PI / 2, 0);
+
+      // Caja del gobernador / temporizador — inferior trasera
+      addPart(new THREE.CylinderGeometry(0.42, 0.36, 0.5, seg), -0.9, -0.78, 0);
 
       // Compensa proporciones
-      pump.scale.setScalar(0.75);
-      pump.position.y = 0.3;
+      pump.scale.setScalar(0.95);
       return pump;
     }
 
@@ -298,7 +302,7 @@
     function fit() {
       const aspect = window.innerWidth / window.innerHeight;
       // Ajusta el tamaño del objeto a pantallas angostas
-      baseScale = TOUCH ? Math.min(0.72, aspect * 1.05) : Math.min(1, aspect * 0.9);
+      baseScale = TOUCH ? Math.min(0.68, aspect * 0.98) : Math.min(1, aspect * 0.85);
       camera.aspect = aspect;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -375,8 +379,8 @@
 
       // Rotación constante automática (X e Y) — pausada para leer la silueta
       if (!REDUCED) {
-        state.rotX += dt * 0.16;
-        state.rotY += dt * 0.24;
+        state.rotX += dt * 0.18;
+        state.rotY += dt * 0.26;
       }
 
       spinner.rotation.x = state.rotX;
