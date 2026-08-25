@@ -675,6 +675,9 @@
       const isOpen = nav.classList.toggle('nav--open');
       burger.setAttribute('aria-expanded', isOpen);
       document.body.classList.toggle('chat-open', isOpen);
+      if (lenis) {
+        isOpen ? lenis.stop() : lenis.start();
+      }
     });
 
     // Cerrar al hacer click en un enlace del menú
@@ -683,6 +686,7 @@
         nav.classList.remove('nav--open');
         burger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('chat-open');
+        if (lenis) lenis.start();
       });
     });
 
@@ -692,6 +696,7 @@
         nav.classList.remove('nav--open');
         burger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('chat-open');
+        if (lenis) lenis.start();
       }
     });
   }

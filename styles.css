@@ -330,6 +330,15 @@ ul {
   backdrop-filter: blur(14px);
 }
 
+/* Cuando el menú mobile está abierto: desactivar blend mode */
+.nav.nav--open {
+  mix-blend-mode: normal;
+  background: rgba(10, 10, 10, 0.9);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  z-index: 1100;
+}
+
 .nav__logo {
   display: flex;
   align-items: center;
@@ -1363,12 +1372,13 @@ ul {
   border-radius: 50%;
   background: #1a1a1a;
   box-shadow:
-    6px 6px 14px #000,
-    -6px -6px 14px #2d2d2d;
+    4px 4px 10px rgba(0, 0, 0, 0.6),
+    -4px -4px 10px rgba(50, 50, 50, 0.15);
   cursor: pointer;
   z-index: 1100;
   transition: box-shadow 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   padding: 0;
+  mix-blend-mode: normal;
 }
 
 .nav__burger:active {
