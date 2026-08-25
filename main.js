@@ -204,64 +204,80 @@
       opacity: 0.15,
     });
 
-    /* Construye el pistón con primitivas (corona, anillos, falda,
-       pasador, biela y cabeza de biela). Cada pieza comparte su
+    /* Construye una bomba de inyección diésel con primitivas (cuerpo
+       cilíndrico, cabeza distribuidora, líneas de combustible, eje de
+       accionamiento y brida de montaje). Cada pieza comparte su
        geometría con un clon en wireframe para el look de malla. */
-    function buildPiston() {
-      const seg = TOUCH ? 36 : 64;  // segmentos radiales de cilindros
-      const tSeg = TOUCH ? 10 : 14; // segmentos del tubo de los toros
-      const piston = new THREE.Group();
+    function buildInjectionPump() {
+      const seg = TOUCH ? 36 : 64;
+      const tSeg = TOUCH ? 10 : 14;
+      const pump = new THREE.Group();
 
-      // Añade sólido + wireframe compartiendo la misma geometría
       const addPart = (geometry, x, y, z, rx, ry, rz) => {
         const solid = new THREE.Mesh(geometry, material);
         const wire = new THREE.Mesh(geometry, wireMaterial);
-        wire.scale.setScalar(1.002); // evita z-fighting con la malla sólida
+        wire.scale.setScalar(1.002);
         [solid, wire].forEach((mesh) => {
           mesh.position.set(x, y, z);
           mesh.rotation.set(rx || 0, ry || 0, rz || 0);
-          piston.add(mesh);
+          pump.add(mesh);
         });
       };
 
-      // Corona del pistón
-      addPart(new THREE.CylinderGeometry(1.05, 1.05, 0.85, seg), 0, 1.2, 0);
-      // Anillos de compresión (3)
-      const ringGeo = new THREE.TorusGeometry(1.07, 0.05, tSeg, seg);
-      addPart(ringGeo, 0, 1.42, 0, Math.PI / 2, 0, 0);
-      addPart(ringGeo, 0, 1.24, 0, Math.PI / 2, 0, 0);
-      addPart(ringGeo, 0, 1.06, 0, Math.PI / 2, 0, 0);
-      // Falda
-      addPart(new THREE.CylinderGeometry(0.98, 0.92, 0.95, seg), 0, 0.3, 0);
-      // Pasador (eje horizontal)
+      // Cuerpo principal (housing)
+      addPart(new THREE.CylinderGeometry(0.85, 0.85, 2.4, seg), 0, 0.2, 0);
+
+      // Copa superior (distributor head)
+      addPart(new THREE.CylinderGeometry(1.0, 0.85, 0.7, seg), 0, 1.65, 0);
+
+      // Tapa de la cabeza (dish top)
+      addPart(new THREE.CylinderGeometry(1.02, 1.02, 0.12, seg), 0, 2.05, 0);
+
+      // Brida de montaje (anillo inferior)
+      addPart(new THREE.TorusGeometry(0.95, 0.1, tSeg, seg), 0, -1.0, 0, Math.PI / 2, 0, 0);
+
+      // Bandas de refuerzo del cuerpo (3 anillos)
+      const bandGeo = new THREE.TorusGeometry(0.88, 0.04, tSeg, seg);
+      addPart(bandGeo, 0, 0.7, 0, Math.PI / 2, 0, 0);
+      addPart(bandGeo, 0, 0.2, 0, Math.PI / 2, 0, 0);
+      addPart(bandGeo, 0, -0.3, 0, Math.PI / 2, 0, 0);
+
+      // Líneas de combustible (4 salidas desde la cabeza)
+      const lineGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.9, TOUCH ? 10 : 14);
+      const angles = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
+      angles.forEach((a) => {
+        const lx = Math.cos(a) * 0.7;
+        const lz = Math.sin(a) * 0.7;
+        addPart(lineGeo, lx, 2.15, lz, 0.15, 0, 0);
+      });
+
+      // Eje de accionamiento (drive shaft, eje vertical inferior)
       addPart(
-        new THREE.CylinderGeometry(0.17, 0.17, 2.0, TOUCH ? 16 : 24),
-        0, 0.55, 0, 0, 0, Math.PI / 2
-      );
-      // Vástago de la biela (ligeramente cónico)
-      addPart(
-        new THREE.CylinderGeometry(0.14, 0.24, 2.1, TOUCH ? 16 : 24),
-        0, -1.05, 0
-      );
-      // Cabeza de biela (aro) + muñón del cigüeñal
-      addPart(
-        new THREE.TorusGeometry(0.52, 0.17, tSeg, seg),
-        0, -2.25, 0, 0, Math.PI / 2, 0
-      );
-      addPart(
-        new THREE.CylinderGeometry(0.34, 0.34, 0.6, TOUCH ? 16 : 24),
-        0, -2.25, 0, 0, 0, Math.PI / 2
+        new THREE.CylinderGeometry(0.15, 0.15, 1.6, TOUCH ? 12 : 18),
+        0, -1.8, 0
       );
 
-      // Compensa proporciones: centra y escala el conjunto
-      piston.scale.setScalar(0.9);
-      piston.position.y = 0.55;
-      return piston;
+      // Acople del eje (coupling)
+      addPart(
+        new THREE.CylinderGeometry(0.28, 0.28, 0.3, TOUCH ? 12 : 18),
+        0, -2.6, 0
+      );
+
+      // Engranaje basal (drive gear)
+      addPart(
+        new THREE.TorusGeometry(0.38, 0.09, tSeg, seg),
+        0, -2.6, 0, Math.PI / 2, 0, 0
+      );
+
+      // Compensa proporciones
+      pump.scale.setScalar(0.75);
+      pump.position.y = 0.3;
+      return pump;
     }
 
     // Grupo interno: rotación constante / Grupo externo: posición y escala
     const spinner = new THREE.Group();
-    spinner.add(buildPiston());
+      spinner.add(buildInjectionPump());
     const rig = new THREE.Group();
     rig.add(spinner);
     scene.add(rig);
