@@ -235,6 +235,7 @@ ul {
   object-fit: contain;
   margin-bottom: 1.5rem;
   filter: brightness(1.2);
+  border-radius: 14px;
 }
 
 .preloader__words {
@@ -355,6 +356,7 @@ ul {
   height: 36px;
   object-fit: contain;
   filter: brightness(1.1);
+  border-radius: 8px;
 }
 
 .nav__logo-dot {
