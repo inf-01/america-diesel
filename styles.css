@@ -1424,7 +1424,7 @@ ul {
   transition: opacity 0.4s var(--ease-out), visibility 0.4s;
 }
 
-.nav--open .nav__mobile {
+.nav__mobile.nav--open {
   opacity: 1;
   visibility: visible;
 }
@@ -1467,14 +1467,14 @@ ul {
   opacity: 0;
 }
 
-.nav--open .nav__mobile-link {
+.nav__mobile.nav--open .nav__mobile-link {
   transform: translateY(0);
   opacity: 1;
 }
 
-.nav--open .nav__mobile-link:nth-child(1) { transition-delay: 0.1s; }
-.nav--open .nav__mobile-link:nth-child(2) { transition-delay: 0.18s; }
-.nav--open .nav__mobile-link:nth-child(3) { transition-delay: 0.26s; }
+.nav__mobile.nav--open .nav__mobile-link:nth-child(1) { transition-delay: 0.1s; }
+.nav__mobile.nav--open .nav__mobile-link:nth-child(2) { transition-delay: 0.18s; }
+.nav__mobile.nav--open .nav__mobile-link:nth-child(3) { transition-delay: 0.26s; }
 
 .nav__mobile-link:active {
   box-shadow:
@@ -1509,7 +1509,7 @@ ul {
   transition: opacity 0.4s ease 0.35s, transform 0.4s var(--ease-out) 0.35s;
 }
 
-.nav--open .nav__mobile-contact {
+.nav__mobile.nav--open .nav__mobile-contact {
   opacity: 1;
   transform: translateY(0);
 }

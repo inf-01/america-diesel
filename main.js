@@ -669,34 +669,34 @@
   function initHamburger() {
     const burger = qs('#nav-burger');
     const nav = qs('#nav');
-    if (!burger || !nav) return;
+    const mobile = qs('#nav-mobile');
+    if (!burger || !nav || !mobile) return;
+
+    function toggleMenu(open) {
+      nav.classList.toggle('nav--open', open);
+      mobile.classList.toggle('nav--open', open);
+      burger.setAttribute('aria-expanded', open);
+      document.body.classList.toggle('chat-open', open);
+      if (lenis) {
+        open ? lenis.stop() : lenis.start();
+      }
+    }
 
     burger.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('nav--open');
-      burger.setAttribute('aria-expanded', isOpen);
-      document.body.classList.toggle('chat-open', isOpen);
-      if (lenis) {
-        isOpen ? lenis.stop() : lenis.start();
-      }
+      toggleMenu(!nav.classList.contains('nav--open'));
     });
 
     // Cerrar al hacer click en un enlace del menú
     qsa('.nav__mobile-link').forEach((link) => {
       link.addEventListener('click', () => {
-        nav.classList.remove('nav--open');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('chat-open');
-        if (lenis) lenis.start();
+        toggleMenu(false);
       });
     });
 
     // Cerrar con Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
-        nav.classList.remove('nav--open');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('chat-open');
-        if (lenis) lenis.start();
+        toggleMenu(false);
       }
     });
   }
