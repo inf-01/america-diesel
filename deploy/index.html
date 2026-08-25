@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />  <meta
+    name="description"
+    content="Repuestos América Diesel — Taller especializado en sistemas de inyección diésel, bombas, inyectores y turbos. Santo Domingo de Heredia, Costa Rica."
+  />
+  <title>Repuestos América Diesel — Precisión & Poder Diésel · Heredia, Costa Rica</title>
+
+  <!-- ============ TIPOGRAFÍAS (Unbounded + Inter) ============ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;400;700;900&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ============ HOJA DE ESTILOS ============ -->
+    <link rel="stylesheet" href="/styles.css?v=3" />
+  <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+</head>
+
+<body>
+  <!-- ============================================================
+       PRELOADER — letras animadas + barra de progreso
+       ============================================================ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <img src="/logo.jpeg" alt="Repuestos América Diesel" class="preloader__logo" />
+      <div class="preloader__words">
+        <span class="preloader__word">
+          <span class="preloader__letter">A</span><span class="preloader__letter">M</span><span class="preloader__letter">E</span><span class="preloader__letter">R</span><span class="preloader__letter">I</span><span class="preloader__letter">C</span><span class="preloader__letter">A</span><span class="preloader__letter">N</span>
+        </span>
+        <span class="preloader__word preloader__word--accent">
+          <span class="preloader__letter">D</span><span class="preloader__letter">I</span><span class="preloader__letter">E</span><span class="preloader__letter">S</span><span class="preloader__letter">E</span><span class="preloader__letter">L</span>
+        </span>
+      </div>
+
+      <p class="preloader__tagline">Repuestos América Diesel — Santo Domingo de Heredia, C.R.</p>
+
+      <div class="preloader__bar-wrap">
+        <div class="preloader__bar">
+          <div class="preloader__bar-fill" id="preloader-bar-fill"></div>
+        </div>
+        <span class="preloader__percent"><span id="preloader-percent">00</span>%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CURSOR PERSONALIZADO (solo escritorio)
+       ============================================================ -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       CAPA 3D — canvas fijo al fondo (Three.js)
+       ============================================================ -->
+  <canvas id="webgl-canvas" class="webgl" aria-hidden="true"></canvas>
+
+  <!-- Grano de película sutil sobre toda la página -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       NAVEGACIÓN FIJA (mix-blend-mode: difference)
+       ============================================================ -->
+  <header class="nav" id="nav">
+    <a href="#inicio" class="nav__logo hover-target">
+      <img src="/logo.jpeg" alt="Repuestos América Diesel" class="nav__logo-img" />
+      <span class="nav__logo-text">AMERICA<span class="nav__logo-dot">.</span>DIESEL</span>
+    </a>
+    <nav class="nav__links" aria-label="Navegación principal">
+      <a href="#servicios" class="nav__link hover-target"><sup>01</sup>Servicios</a>
+      <a href="#inventario" class="nav__link hover-target"><sup>02</sup>Inventario</a>
+      <a href="#contacto" class="nav__link hover-target"><sup>03</sup>Contacto</a>
+    </nav>
+    <button class="nav__burger hover-target" id="nav-burger" aria-label="Abrir menú" aria-expanded="false">
+      <span class="nav__burger-line"></span>
+      <span class="nav__burger-line"></span>
+      <span class="nav__burger-line"></span>
+    </button>
+  </header>
+
+  <!-- Menú mobile overlay -->
+  <div class="nav__mobile" id="nav-mobile" aria-hidden="true">
+    <div class="nav__mobile-inner">
+      <nav class="nav__mobile-links" aria-label="Menú móvil">
+        <a href="#servicios" class="nav__mobile-link hover-target"><span class="nav__mobile-num">01</span>Servicios</a>
+        <a href="#inventario" class="nav__mobile-link hover-target"><span class="nav__mobile-num">02</span>Inventario</a>
+        <a href="#contacto" class="nav__mobile-link hover-target"><span class="nav__mobile-num">03</span>Contacto</a>
+      </nav>
+      <div class="nav__mobile-contact">
+        <a href="tel:+50685310000" class="nav__mobile-contact-link hover-target">+506 8531-0000</a>
+        <a href="https://wa.me/50685310000" target="_blank" rel="noopener" class="nav__mobile-contact-link hover-target">WhatsApp</a>
+        <a href="mailto:info@americadieselcr.com" class="nav__mobile-contact-link hover-target">info@americadieselcr.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CONTENIDO PRINCIPAL
+       ============================================================ -->
+  <main class="site">
+    <!-- ================= HERO — 100vh ================= -->
+    <section class="hero" id="inicio">
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Ubicación</span>
+          <span class="hero__meta-value">Santo Domingo · Heredia, CR</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Desde</span>
+          <span class="hero__meta-value">2013</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Especialidad</span>
+          <span class="hero__meta-value">Bombas · Inyectores · Turbos</span>
+        </div>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__line"><span class="hero__line-inner">Precision</span></span>
+        <span class="hero__line"><span class="hero__line-inner hero__line-inner--stroke">Power</span></span>
+        <span class="hero__line"><span class="hero__line-inner hero__line-inner--accent">Diesel.</span></span>
+      </h1>
+
+      <div class="hero__bottom">
+        <p class="hero__desc">
+          Venta, reparación y reconstrucción de bombas de inyección, inyectores y
+          turbos para todo tipo de equipo: liviano, pesado, estacionario y marítimo.
+          Más de 15 años de experiencia con garantía certificada.
+        </p>
+
+        <div class="hero__scroll">
+          <span class="hero__scroll-text">Scroll</span>
+          <span class="hero__scroll-line"><span class="hero__scroll-dot"></span></span>
+        </div>
+      </div>
+
+      <!-- Sello giratorio decorativo -->
+      <div class="hero__badge" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <defs>
+            <path id="badge-circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" />
+          </defs>
+          <text class="hero__badge-text">
+            <textPath href="#badge-circle">
+              REPUESTOS AMÉRICA DIESEL • COSTA RICA • EST. 2013 •
+            </textPath>
+          </text>
+        </svg>
+        <svg class="hero__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <polygon points="12 2.5 20.2 7.25 20.2 16.75 12 21.5 3.8 16.75 3.8 7.25" />
+          <circle cx="12" cy="12" r="3.4" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ================= DETAILS — sección sticky 300vh ================= -->
+    <section class="details" id="detalles">
+      <div class="details__pin">
+        <div class="details__content">
+          <p class="label">
+            <span class="label__line"></span>
+            Especialistas en Diésel
+            <span class="label__index">( 01 )</span>
+          </p>
+
+          <h2 class="details__title">
+            Sistemas de <span class="details__title--stroke">Inyección</span> Diésel
+          </h2>
+
+          <p class="details__text">
+            Reparamos y reconstruimos bombas de inyección, inyectores y turbos con
+            equipo especializado y personal capacitado. Cada servicio incluye
+            diagnóstico, repuestos certificados y garantía por escrito — porque en
+            diésel, la precisión no es opcional.
+          </p>
+
+          <!-- Stats 2x2 -->
+          <div class="details__stats">
+            <div class="stat hover-target">
+              <span class="stat__value">
+                <span class="stat__num" data-count="15">0</span><span class="stat__suffix">+</span>
+              </span>
+              <span class="stat__label">Años de Experiencia</span>
+            </div>
+            <div class="stat hover-target">
+              <span class="stat__value">
+                <span class="stat__num" data-count="500">0</span><span class="stat__suffix">+</span>
+              </span>
+              <span class="stat__label">Bombas Reparadas</span>
+            </div>
+            <div class="stat hover-target">
+              <span class="stat__value">
+                <span class="stat__num" data-count="100">0</span><span class="stat__suffix">%</span>
+              </span>
+              <span class="stat__label">Garantía Certificada</span>
+            </div>
+            <div class="stat hover-target">
+              <span class="stat__value">
+                <span class="stat__num" data-count="24">0</span><span class="stat__suffix">h</span>
+              </span>
+              <span class="stat__label">Diagnóstico Express</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: ficha técnica -->
+        <aside class="details__aside">
+          <span class="details__aside-index">CR / 2013</span>
+          <ul class="details__specs">
+            <li><span class="details__specs-mark">—</span>Bomba de inyección diésel — reparación y calibración</li>
+            <li><span class="details__specs-mark">—</span>Diagnóstico computarizado — equipo especializado</li>
+            <li><span class="details__specs-mark">—</span>Inyectores piezo y solenoide — venta e instalación</li>
+            <li><span class="details__specs-mark">—</span>Turbos new y remanufacturados</li>
+            <li><span class="details__specs-mark">—</span>Servicio a equipo liviano, pesado, estacionario y marítimo</li>
+          </ul>
+          <a href="#servicios" class="details__link hover-target">
+            Ver servicios
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= SERVICES ================= -->
+    <section class="services" id="servicios">
+      <!-- Marquee infinito -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <div class="marquee__group">
+            <span class="marquee__item">Bombas</span><span class="marquee__sep">/</span>
+            <span class="marquee__item marquee__item--stroke">Inyectores</span><span class="marquee__sep">/</span>
+            <span class="marquee__item">Turbos</span><span class="marquee__sep">/</span>
+            <span class="marquee__item marquee__item--stroke">Diagnóstico</span><span class="marquee__sep">/</span>
+          </div>
+          <div class="marquee__group">
+            <span class="marquee__item">Bombas</span><span class="marquee__sep">/</span>
+            <span class="marquee__item marquee__item--stroke">Inyectores</span><span class="marquee__sep">/</span>
+            <span class="marquee__item">Turbos</span><span class="marquee__sep">/</span>
+            <span class="marquee__item marquee__item--stroke">Diagnóstico</span><span class="marquee__sep">/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="services__inner">
+        <div class="services__head">
+          <p class="label">
+            <span class="label__line"></span>
+            Lo que hacemos
+            <span class="label__index">( 02 )</span>
+          </p>
+          <h2 class="services__title">Servicios diésel especializados</h2>
+        </div>
+        <p class="services__intro">
+          Más de 15 años de experiencia. Venta, reparación y reconstrucción de
+          sistemas de inyección diésel con garantía y respaldo.
+        </p>
+
+        <!-- Grid de tarjetas -->
+        <div class="services__grid">
+          <article class="service-card hover-target">
+            <span class="service-card__ghost" aria-hidden="true">01</span>
+            <span class="service-card__num">01 / Inyección</span>
+            <h3 class="service-card__title">Bombas de Inyección</h3>
+            <p class="service-card__desc">
+              Reparación, reconstrucción y venta de bombas de inyección diésel.
+              Diagnóstico computarizado con equipo especializado y garantía en cada servicio.
+            </p>
+            <ul class="service-card__list">
+              <li>Bombas Common Rail y rotativas</li>
+              <li>Calibración con banco de pruebas</li>
+              <li>Repuestos OEM certificados</li>
+            </ul>
+            <a href="#contacto" class="service-card__cta hover-target">
+              Solicitar servicio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </article>
+
+          <article class="service-card hover-target">
+            <span class="service-card__ghost" aria-hidden="true">02</span>
+            <span class="service-card__num">02 / Componentes</span>
+            <h3 class="service-card__title">Inyectores &amp; Turbos</h3>
+            <p class="service-card__desc">
+              Venta e instalación de inyectores y turbocargadores para todo tipo de
+              equipo liviano, pesado, estacionario y marítimo.
+            </p>
+            <ul class="service-card__list">
+              <li>Inyectores piezo y solenoide</li>
+              <li>Turbos new y remanufacturados</li>
+              <li>Prueba y ajuste post-instalación</li>
+            </ul>
+            <a href="#contacto" class="service-card__cta hover-target">
+              Solicitar servicio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </article>
+
+          <article class="service-card hover-target">
+            <span class="service-card__ghost" aria-hidden="true">03</span>
+            <span class="service-card__num">03 / Diagnóstico</span>
+            <h3 class="service-card__title">Servicio Especializado</h3>
+            <p class="service-card__desc">
+              Diagnóstico computarizado, mantenimiento preventivo y correctivo.
+              Personal capacitado con más de 15 años de experiencia en sistemas diésel.
+            </p>
+            <ul class="service-card__list">
+              <li>Escáner diagnóstico diésel</li>
+              <li>Mantenimiento preventivo</li>
+              <li>Servicio a domicilio</li>
+            </ul>
+            <a href="#contacto" class="service-card__cta hover-target">
+              Solicitar servicio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </article>
+        </div>
+      </div>
+
+      <!-- ================= INVENTARIO / PLATAFORMAS ================= -->
+      <div class="inventory" id="inventario">
+        <div class="inventory__inner">
+          <p class="label">
+            <span class="label__line"></span>
+            Inventario &amp; Plataformas
+            <span class="label__index">( 03 )</span>
+          </p>
+          <h2 class="inventory__title">Plataformas que&nbsp;atendemos</h2>
+          <p class="inventory__text">
+            Servicio a todo tipo de equipo diésel: liviano, pesado, estacionario y
+            marítimo. Repuestos originales y alternos de grado OEM.
+          </p>
+
+          <div class="inventory__chips">
+            <span class="chip hover-target">Cummins</span>
+            <span class="chip hover-target">Caterpillar</span>
+            <span class="chip hover-target">Duramax</span>
+            <span class="chip hover-target">Power Stroke</span>
+            <span class="chip hover-target">Hino</span>
+            <span class="chip hover-target">Isuzu</span>
+            <span class="chip hover-target">Mitsubishi Fuso</span>
+            <span class="chip hover-target">Kubota</span>
+            <span class="chip hover-target">Yanmar</span>
+            <span class="chip hover-target">Volvo Penta</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER / CONTACTO ================= -->
+    <footer class="footer" id="contacto">
+      <span class="footer__ghost" aria-hidden="true">Diesel</span>
+
+      <div class="footer__inner">
+        <div class="footer__cta">
+          <p class="label">
+            <span class="label__line"></span>
+            Contacto
+            <span class="label__index">( 04 )</span>
+          </p>
+          <a href="mailto:info@americadieselcr.com" class="footer__cta-link hover-target">
+            <span>¿Listo para potenciar<br />tu motor<span class="footer__cta-accent">?</span></span>
+            <span class="footer__cta-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="footer__grid">
+          <div class="footer__col">
+            <h4 class="footer__col-title">Taller</h4>
+            <p class="footer__col-text">
+              300 metros sur de Super Compro de Santa Rosa,<br />
+              Santo Domingo, Heredia — Costa&nbsp;Rica, 40306
+            </p>
+          </div>
+
+          <div class="footer__col">
+            <h4 class="footer__col-title">Directo</h4>
+            <p class="footer__col-text">
+              <a href="tel:+50685310000" class="footer__col-link hover-target">+506 8531-0000</a><br />
+              <a href="https://wa.me/50685310000" target="_blank" rel="noopener" class="footer__col-link hover-target">WhatsApp · +506 8531-0000</a><br />
+              <a href="mailto:info@americadieselcr.com" class="footer__col-link hover-target">info@americadieselcr.com</a>
+            </p>
+          </div>
+
+          <div class="footer__col">
+            <h4 class="footer__col-title">Horario</h4>
+            <p class="footer__col-text">
+              Lun — Vie · 7:30 – 17:00<br />
+              Sáb · 8:00 – 12:00<br />
+              <span class="footer__col-muted">Dom · cerrado</span>
+            </p>
+          </div>
+
+          <div class="footer__col">
+            <h4 class="footer__col-title">Redes</h4>
+            <ul class="footer__social">
+              <li>
+                <a href="https://www.facebook.com/americadieselcr" target="_blank" rel="noopener" class="footer__social-link hover-target">
+                  Facebook
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8" /></svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener" class="footer__social-link hover-target">
+                  Instagram
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8" /></svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener" class="footer__social-link hover-target">
+                  YouTube
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8" /></svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <span>© 2026 Repuestos América Diesel — Todos los derechos reservados.</span>
+          <span class="footer__bottom-mid">Precisión · Poder · Diésel</span>
+          <a href="#inicio" class="footer__top hover-target">
+            Volver arriba
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 19V5M6 11l6-6 6 6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============================================================
+       CHATBOT ASISTENTE IA — widget flotante
+       ============================================================ -->
+  <div class="chatbot" id="chatbot">
+    <button class="chatbot__toggle hover-target" id="chatbot-toggle" aria-label="Abrir chat">
+      <svg class="chatbot__icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+      <svg class="chatbot__icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+      <span class="chatbot__badge">1</span>
+    </button>
+
+    <div class="chatbot__window" id="chatbot-window">
+      <div class="chatbot__header">
+        <div class="chatbot__header-info">
+          <div class="chatbot__avatar">
+            <img src="/logo.jpeg" alt="América Diesel" />
+          </div>
+          <div>
+            <h4 class="chatbot__name">América Diesel IA</h4>
+            <span class="chatbot__status"><span class="chatbot__status-dot"></span>En línea 24/7</span>
+          </div>
+        </div>
+        <button class="chatbot__close hover-target" id="chatbot-close" aria-label="Cerrar chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="chatbot__messages" id="chatbot-messages">
+        <div class="chatbot__msg chatbot__msg--bot">
+          <p>¡Hola! Soy el asistente de <strong>Repuestos América Diesel</strong>. 👋</p>
+          <p>¿En qué puedo ayudarle hoy? Puedo information sobre:</p>
+          <ul>
+            <li>🔧 Bombas de inyección</li>
+            <li>💨 Inyectores y turbos</li>
+            <li>📞 Agendar una cita</li>
+            <li>💰 Cotizaciones</li>
+          </ul>
+        </div>
+      </div>
+
+      <form class="chatbot__input" id="chatbot-form">
+        <input type="text" id="chatbot-input" placeholder="Escriba su consulta..." autocomplete="off" />
+        <button type="submit" class="chatbot__send hover-target" aria-label="Enviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LIBRERÍAS (locales) — Three.js · GSAP + ScrollTrigger · Lenis
+       ============================================================ -->
+  <script src="/vendor/three.min.js"></script>
+  <script src="/vendor/gsap.min.js"></script>
+  <script src="/vendor/ScrollTrigger.min.js"></script>
+  <script src="/vendor/lenis.min.js"></script>
+
+  <!-- Lógica principal -->
+  <script src="/main.js?v=3"></script>
+</body>
+</html>
