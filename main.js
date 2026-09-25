@@ -90,57 +90,7 @@
     else window.scrollTo({ top: 0, behavior: REDUCED ? 'auto' : 'smooth' });
   }
 
-  /* ============ 3. CURSOR PERSONALIZADO ============ */
-  function initCursor() {
-    const dot = qs('.cursor-dot');
-    const ring = qs('.cursor-ring');
-    // Solo en escritorio con puntero fino (en mobile se usa el nativo)
-    if (!dot || !ring || TOUCH) return;
-
-    document.documentElement.classList.add('has-cursor');
-
-    let mx = window.innerWidth / 2;
-    let my = window.innerHeight / 2;
-    let rx = mx;
-    let ry = my;
-
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      // El punto sigue al mouse de forma instantánea
-      dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
-      dot.style.opacity = '1';
-      ring.style.opacity = '1';
-    });
-
-    // Estado hover sobre elementos interactivos (delegación)
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest('a, button, .hover-target')) ring.classList.add('is-active');
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest('a, button, .hover-target')) ring.classList.remove('is-active');
-    });
-
-    // Feedback al hacer click
-    document.addEventListener('mousedown', () => ring.classList.add('is-down'));
-    document.addEventListener('mouseup', () => ring.classList.remove('is-down'));
-
-    // Oculta el cursor al salir de la ventana
-    document.documentElement.addEventListener('mouseleave', () => {
-      dot.style.opacity = '0';
-      ring.style.opacity = '0';
-    });
-
-    // El círculo persigue al punto con interpolación (lerp 0.15)
-    (function loop() {
-      rx += (mx - rx) * 0.15;
-      ry += (my - ry) * 0.15;
-      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
-      requestAnimationFrame(loop);
-    })();
-  }
-
-  /* ============ 4. THREE.JS — ESCENA 3D ============ */
+  
   function initThree() {
     if (!HAS_THREE) return;
     const canvas = qs('#webgl-canvas');
@@ -791,7 +741,6 @@
   function init() {
     initLenis();
     initAnchorLinks();
-    initCursor();
     initThree();
     initHamburger();
     initChatbot();

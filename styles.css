@@ -155,64 +155,7 @@ ul {
   100% { transform: translate(0, 0); }
 }
 
-/* ============ 4. CURSOR PERSONALIZADO ============ */
-.cursor-dot,
-.cursor-ring {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10000;
-  pointer-events: none;
-  border-radius: 50%;
-  opacity: 0;
-}
-
-/* Solo se activa cuando JS confirma puntero fino */
-.has-cursor .cursor-dot,
-.has-cursor .cursor-ring {
-  display: block;
-}
-
-/* Oculta el cursor nativo en escritorio */
-.has-cursor,
-.has-cursor a,
-.has-cursor button,
-.has-cursor * {
-  cursor: none !important;
-}
-
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-}
-
-.cursor-ring {
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(234, 234, 234, 0.55);
-  transition:
-    width 0.35s var(--ease-out),
-    height 0.35s var(--ease-out),
-    background-color 0.35s var(--ease-out),
-    border-color 0.35s var(--ease-out),
-    opacity 0.3s ease;
-}
-
-.cursor-ring.is-active {
-  width: 70px;
-  height: 70px;
-  background: rgba(255, 59, 0, 0.1);
-  border-color: var(--accent);
-}
-
-.cursor-ring.is-down {
-  width: 28px;
-  height: 28px;
-}
-
-/* ============ 5. PRELOADER ============ */
+ /* ============ 5. PRELOADER ============ */
 .preloader {
   position: fixed;
   inset: 0;
@@ -482,26 +425,19 @@ ul {
   color: var(--accent);
 }
 
-.hero__brand-img {
-  width: 120px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  margin: 1.5rem 0;
-  filter: brightness(1.15);
-  opacity: 0.9;
-}
-
 @media (max-width: 767px) {
-  .hero__brand-img {
-    width: 90px;
-    margin: 1rem 0;
+  .hero__title {
+    font-size: clamp(1.8rem, 8vw, 3.5rem);
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
-}
-
-@media (min-width: 768px) {
-  .hero__brand-img {
-    width: 140px;
+  .hero__line {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .hero__line-inner {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 
