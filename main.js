@@ -1,5 +1,5 @@
 /* ==================================================================
-   AMERICAN DIESEL — main.js
+    TALLER AUTOMOTRIZ — main.js
    ------------------------------------------------------------------
    Módulos:
      1. Utilidades y detección de contexto
@@ -735,15 +735,15 @@
       'bomba': 'Trabajamos con bombas Common Rail y rotativas para todo tipo de equipo. Ofrecemos reparación, calibración y venta con garantía. ¿Desea agendar una revisión?',
       'inyector': 'Reparamos y vendemos inyectores piezo y solenoide para las principales marcas: Cummins, Caterpillar, Duramax, Power Stroke, Hino, Isuzu y más.',
       'turbo': 'Contamos con turbos new y remanufacturados. Hacemos instalación y prueba post-instalación. ¿Qué plataforma le interesa?',
-      'precio': 'Los precios varían según el modelo y marca del equipo. Para una cotización precisa, necesita traer el equipo al taller o enviar datos por WhatsApp al +506 8531-0000.',
-      'cita': 'Puede agendar una cita al +506 8531-0000 o por WhatsApp. Atendemos de Lunes a Viernes de 7:30 a 17:00 y Sábados de 8:00 a 12:00.',
+      'precio': 'Los precios varían según el modelo y marca del equipo. Para una cotización precisa, comuníquese con nosotros.',
+      'cita': 'Puede agendar una cita por WhatsApp o llamando a nuestro taller. Atendemos de Lunes a Viernes de 7:30 a 17:00 y Sábados de 8:00 a 12:00.',
       'horario': 'Horario: Lunes a Viernes 7:30 – 17:00, Sábados 8:00 – 12:00. Domingos cerrado.',
-      'whatsapp': 'Puede contactarnos por WhatsApp al +506 8531-0000. ¡Le atendemos rápido!',
-      'ubicacion': 'Estamos en 300 metros sur de Super Compro de Santa Rosa, Santo Domingo, Heredia, Costa Rica. Código postal 40306.',
-      'direccion': 'Estamos en 300 metros sur de Super Compro de Santa Rosa, Santo Domingo, Heredia, Costa Rica. Código postal 40306.',
+      'whatsapp': 'Puede contactarnos por WhatsApp para cotizaciones y agendar citas. ¡Le atendemos rápido!',
+      'ubicacion': 'Servimos en toda la región. Contáctanos para coordinar una visita o envío.',
+      'direccion': 'Contáctanos para obtener la dirección exacta de nuestro taller.',
       'servicio': 'Ofrecemos: reparación de bombas de inyección, venta e instalación de inyectores, turbos new y remanufacturados, y diagnóstico computarizado.',
       'gracias': '¡Con gusto! Si necesita algo más, estoy aquí 24/7. ¡Que tenga un excelente día!',
-      'hola': '¡Hola! Bienvenido a Repuestos América Diesel. ¿En qué puedo ayudarle?',
+      'hola': '¡Hola! Bienvenido a Taller Automotriz. ¿En qué puedo ayudarle?',
       'buenas': '¡Buenas! ¿Cómo puedo asistirle hoy? Pregunte por bombas, inyectores, turbos o agendar una cita.'
     };
 
